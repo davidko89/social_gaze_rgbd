@@ -79,7 +79,7 @@ class RecorderWithCallback:
         
         # Video recording setting
         fourcc = cv2.VideoWriter_fourcc(*'XVID')       
-        video = cv2.VideoWriter(f'D:/data/raw_data/tmp_video.avi', fourcc, 30, (1920, 1080)) #(1920, 1080) (1280, 720)
+        video = cv2.VideoWriter(f'D:/data/raw_data/tmp_video.avi', fourcc, 15, (1280, 720)) #(1920, 1080) (1280, 720)
         color_video = []
         depth_video = []
         
@@ -88,25 +88,23 @@ class RecorderWithCallback:
         
         # Recording start
         i = 0
-        print('Start Recording...')
         
         while not self.flag_exit:
             rgbd = self.recorder.capture_frame(self.align_depth_to_color)
             
             if (rgbd is not None) and (self.flag_record):                
-                # print(f'frame recorded: {self.flag_record}')
+                print(f'frame recorded: {self.flag_record}')
 
                 '''write video frame to video file'''
                 video.write(cv2.cvtColor(np.asarray(rgbd.color), cv2.COLOR_RGB2BGR))
 
+                '''Add audio frame to audio_frames(List)'''
+                aud = audio_stream.read(chunk_size)
+                audio_frames.append(aud)
+
                 if (i%3)==2:
                     color_video.append(copy.deepcopy(np.asarray(rgbd.color)))
-                    depth_video.append(copy.deepcopy(np.asarray(rgbd.depth)))
-
-                    '''Add audio frame to audio_frames(List)'''
-                    aud = audio_stream.read(chunk_size)
-                    audio_frames.append(aud)
-                
+                    depth_video.append(copy.deepcopy(np.asarray(rgbd.depth)))    
                 
             if not vis_geometry_added:
                 vis.add_geometry(rgbd)
@@ -136,7 +134,7 @@ class RecorderWithCallback:
 
         # Make final video using ffmpeg
         try:
-            cmd = f"ffmpeg -y -analyzeduration 2147483647 -probesize 2147483647 -channel_layout stereo -ac 2 -i D:/data/raw_data/tmp_audio.wav -i D:/data/raw_data/tmp_video.avi -s 1920x1080 -r 30 -pix_fmt yuv420p D:/data/raw_data/{self.file_path}_raw_video.avi"
+            cmd = f"ffmpeg -y -analyzeduration 2147483647 -probesize 2147483647 -channel_layout stereo -ac 2 -i D:/data/raw_data/tmp_audio.wav -i D:/data/raw_data/tmp_video.avi -s 1280x720 -r 15 -pix_fmt yuv420p D:/data/raw_data/{self.file_path}_raw_video.avi"
 
             p = subprocess.run(cmd, shell=True, check=True)
             print("FFmpeg has finished.")

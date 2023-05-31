@@ -1,14 +1,4 @@
-# ----------------------------------------------------------------------------
-# -                        Open3D: www.open3d.org                            -
-# ----------------------------------------------------------------------------
-# Copyright (c) 2018-2023 www.open3d.org
-# SPDX-License-Identifier: MIT
-# ----------------------------------------------------------------------------
-
-# examples/python/reconstruction_system/sensors/azure_kinect_recorder.py
-
 import argparse
-
 import os
 import cv2
 import copy
@@ -85,7 +75,7 @@ class RecorderWithCallback:
 
         # Video recording setting.
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        video = cv2.VideoWriter(f'D:/data/raw_data/tmp_video.avi', fourcc,30, (1280, 720))
+        video = cv2.VideoWriter(f'D:/data/raw_data/tmp_video.avi', fourcc, 30, (1280, 720)) # (1280, 720) or (1920, 1080)
         color_video = []
         depth_video = []
         
@@ -94,7 +84,6 @@ class RecorderWithCallback:
 
         # Recording start
         i = 0
-        print('Start Recording...')
         
         while not self.flag_exit:
             rgbd = self.recorder.capture_frame(self.align_depth_to_color)
@@ -104,7 +93,7 @@ class RecorderWithCallback:
                 # audio_frames.append(aud)   
            
             if (rgbd is not None) and (self.flag_record):
-                # print(f'frame recorded: {self.flag_record}')
+                print(f'frame recorded: {self.flag_record}')
 
                 '''write video frame to video file'''
                 video.write(cv2.cvtColor(np.asarray(rgbd.color), cv2.COLOR_RGB2BGR))
