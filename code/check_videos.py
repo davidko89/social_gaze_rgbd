@@ -38,7 +38,7 @@ if depth_file.exists():
         color_image = draw_face_bounding_boxes(color_image, faces)
 
         # Save every 50th frame as an image file
-        if frame_idx % 10 == 0:  # Save every 50th frame
+        if frame_idx % 50 == 0:  # Save every 50th frame
             cv2.imwrite(str(Path(IMAGE_PATH,f"{participant_id}_frame_{frame_idx}.png")), cv2.cvtColor(color_image, cv2.COLOR_RGB2BGR))
 
 #%%

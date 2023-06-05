@@ -45,10 +45,10 @@ for mkv_file in RAW_DATA_PATH.glob("*.mkv"):
     while not reader.is_eof():
         frame = reader.next_frame()
         if frame is not None:
-            if i == 0 or (i % 3) == 0:
+            # if i == 0 or (i % 3) == 0:
                 color_data.append(copy.deepcopy(np.asarray(frame.color)))
                 depth_data.append(copy.deepcopy(np.asarray(frame.depth)))
-            i += 1
+                i += 1
 
     reader.close()
 
