@@ -21,7 +21,7 @@ class RecorderWithCallback:
         # Audio recording settings
         self.audio_format = pyaudio.paInt16
         self.sample_rate = 16000  # Hertz
-        self.chunk_size = 1024  # Each record will have 1024 frames
+        self.chunk_size = 2048  # Each record will have 2048 (vs 1024) frames
         self.audio_channels = 2
 
         self.audio = pyaudio.PyAudio()

@@ -11,7 +11,7 @@ IMAGE_PATH = Path(PROJECT_PATH, "images")
 
 #%%
 # Load the color images
-color_file = Path(PROC_DATA_PATH, "color", "td008_color.npy")
+color_file = Path(PROC_DATA_PATH, "color", "td009_color.npy")
 depth_file = Path(PROC_DATA_PATH, "depth", color_file.stem.replace("color", "depth") + ".npy")
 color_images = np.load(color_file)
 participant_id = color_file.stem.split("_")[0]
